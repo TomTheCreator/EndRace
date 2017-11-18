@@ -1,6 +1,9 @@
 package me.tomthedeveloper.endrace.game;
 
+import me.tomthedeveloper.endrace.EndRace;
+import me.tomthedeveloper.endrace.utils.ConfigurationManager;
 import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -12,14 +15,15 @@ import java.util.List;
 public class ArenaManager {
 
 
+    private EndRace plugin;
     private List<Arena> arenas = new ArrayList<Arena>();
 
     public List<Arena> getArenas() {
         return arenas;
     }
 
-    public ArenaManager() {
-
+    public ArenaManager(EndRace plugin) {
+        this.plugin = plugin;
     }
 
 
@@ -83,5 +87,27 @@ public class ArenaManager {
                     return arena;
         }
         return null;
+    }
+
+    public void loadArenasFromConfig(){
+        FileConfiguration config = ConfigurationManager.getConfig("arenas.yml");
+        if(config == null){
+            System.out.print("Cannot load arenas.yml. There must be a format mistake in the file! Please recheck the file.");
+            System.out.print("Aborting plugin.");
+            return;
+        }
+        for(String key:config.getKeys(false)){
+            Arena arena = new Arena(plugin);
+            ArenaPreferences arenaPreferences = new ArenaPreferences();
+            arenaPreferences.setName(key);
+            arenaPreferences.setMinPlayers(config.getInt(key + ".min-players"));
+            arenaPreferences.setMaxPlayers(config.getInt(key + ".max-players"));
+            arena.setArenaPreferences(arenaPreferences);
+            for(String locKey:config.getConfigurationSection(key + ".teleport-locations").getKeys(false)){
+                Location location = ConfigurationManager.getLocation(key + ".teleport-locations." + locKey, config);
+                arena.getLocations().addTeleportLocation(locKey,location);
+            }
+        }
+
     }
 }

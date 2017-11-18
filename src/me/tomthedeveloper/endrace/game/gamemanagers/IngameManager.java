@@ -27,6 +27,7 @@ public class IngameManager extends GameManager {
     //triggered by DragonKillEventListener
     public void stop(){
         Messages.PLAYER_WON_THE_GAME.sendMessage(arena,arena.getWinner().toString());
+        arena.getTeleportationManager().teleportPlayers("ending");
         arena.setGameState(GameState.ENDING);
         arena.update();
 

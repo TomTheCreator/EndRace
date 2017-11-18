@@ -9,6 +9,7 @@ import me.tomthedeveloper.endrace.game.gamestates.GameState;
 import me.tomthedeveloper.endrace.game.managers.ArenaLocations;
 import me.tomthedeveloper.endrace.game.managers.TeleportationManager;
 import me.tomthedeveloper.endrace.scoreboard.ScoreboardHandler;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -153,6 +154,15 @@ public class Arena {
 
     public Player getWinner(){
         return winner;
+    }
+
+    public List<Player> getPlayersLeft(){
+        List<Player> returnList = new ArrayList<>();
+        for(Player player:getPlayers()){
+            if(player.getGameMode() != GameMode.SPECTATOR)
+                returnList.add(player);
+        }
+        return returnList;
     }
 
 }

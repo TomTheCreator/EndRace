@@ -75,7 +75,10 @@ public class ScoreboardHandler {
                 string = string.replaceAll("%TIMER%", Integer.toString(arena.getStartingManager().getTimer()));
                 break;
             case INGAME:
+                string = string.replace("%PLAYERSLEFT%", Integer.toString(arena.getPlayersLeft().size()));
                 break;
+            case ENDING:
+                string = string.replace("%WINNER%", arena.getWinner().getName());
         }
         string = string.replace("%MIN_PLAYERS%", Integer.toString(arena.getArenaPreferences().getMinPlayers()))
                     .replace("%MAX_PLAYERS%", Integer.toString(arena.getArenaPreferences().getMaxPlayers()))

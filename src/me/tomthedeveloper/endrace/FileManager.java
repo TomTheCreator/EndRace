@@ -9,6 +9,9 @@ import java.io.IOException;
 public class FileManager {
 
 
+
+
+    /*
     public static void delete(File file)
             throws IOException{
         if(!file.exists()){
@@ -50,4 +53,5 @@ public class FileManager {
             System.out.println("File is deleted : " + file.getAbsolutePath());
         }
     }
+    */
 }

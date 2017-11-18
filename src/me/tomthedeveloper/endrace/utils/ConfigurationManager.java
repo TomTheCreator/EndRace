@@ -4,6 +4,10 @@ import java.io.*;
 
 
 import me.tomthedeveloper.endrace.EndRace;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.WorldCreator;
+import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -125,6 +129,27 @@ public class ConfigurationManager {
 
             }
         }
+    }
+
+
+    public static void saveLoc(String path, Location loc, FileConfiguration configuration) {
+        String location = loc.getWorld().getName() + "," + loc.getX() + "," + loc.getY() + "," + loc.getZ() + "," + loc.getYaw() + "," + loc.getPitch();
+        configuration.set(path, location);
+    }
+
+
+
+    public static Location getLocation(String path, FileConfiguration configuration) {
+        String[] loc = configuration.getString(path).split("\\,");
+        plugin.getServer().createWorld(new WorldCreator(loc[0]));
+        World w = plugin.getServer().getWorld(loc[0]);
+        Double x = Double.parseDouble(loc[1]);
+        Double y = Double.parseDouble(loc[2]);
+        Double z = Double.parseDouble(loc[3]);
+        float yaw = Float.parseFloat(loc[4]);
+        float pitch = Float.parseFloat(loc[5]);
+        Location location = new Location(w, x, y, z, yaw, pitch);
+        return location;
     }
 
 }

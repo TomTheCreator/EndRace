@@ -3,6 +3,8 @@ package me.tomthedeveloper.endrace.events;
 import me.tomthedeveloper.endrace.EndRace;
 import me.tomthedeveloper.endrace.chat.Messages;
 import me.tomthedeveloper.endrace.game.Arena;
+import me.tomthedeveloper.endrace.game.gameconfig.GamePreferences;
+import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -25,6 +27,13 @@ public class PlayerPvpListener implements Listener {
             return;
         arena.getTeleportationManager().teleportPlayer(event.getEntity(),"start");
         Messages.PLAYER_DIED.sendMessage(arena,event.getEntity().getName());
-        event.getEntity().setHealth(event.getEntity().getMaxHealth());
+        if(GamePreferences.RESPAWN) {
+            event.getEntity().setHealth(event.getEntity().getMaxHealth());
+
+            return;
+        }else{
+            event.getEntity().setGameMode(GameMode.SPECTATOR);
+            arena.getScoreboardHandler().updateScoreboard();
+        }
     }
 }

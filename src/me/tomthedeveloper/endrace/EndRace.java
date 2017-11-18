@@ -13,19 +13,25 @@ public class EndRace extends JavaPlugin {
 
     private ArenaManager arenaManager;
 
-        public void onDisable(){
 
-            try {
-                this.getServer().unloadWorld("world",true);
-                FileManager.delete(this.getServer().getWorld("world").getWorldFolder());
-                FileManager.delete(this.getServer().getWorld("world_nether").getWorldFolder());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public void onEnable(){
+        arenaManager = new ArenaManager();
+    }
+
+
+    public void onDisable() {
+
+        try {
+            this.getServer().unloadWorld("world", true);
+            FileManager.delete(this.getServer().getWorld("world").getWorldFolder());
+            FileManager.delete(this.getServer().getWorld("world_nether").getWorldFolder());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
 
 
-        public ArenaManager getArenaManager(){
-            return arenaManager;
-        }
+    public ArenaManager getArenaManager() {
+        return arenaManager;
+    }
 }
